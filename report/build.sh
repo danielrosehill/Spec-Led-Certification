@@ -22,6 +22,14 @@ command -v typst >/dev/null 2>&1 || {
 mkdir -p pdf
 
 if [[ "${1:-}" == "example" ]]; then
+  # examples/ ships only in the template repo, not in a scaffolded workspace, so this
+  # mode is genuinely absent rather than broken when the plugin created the directory.
+  [[ -d examples/worked-run ]] || {
+    echo "No examples/worked-run here — the worked example ships only in the" >&2
+    echo "Spec-Led-Certification template repo, not in a scaffolded workspace:" >&2
+    echo "  https://github.com/danielrosehill/Spec-Led-Certification" >&2
+    exit 1
+  }
   echo "Building the worked example."
   typst compile --root . --input data=/examples/worked-run \
     report/report.typ pdf/example-report.pdf

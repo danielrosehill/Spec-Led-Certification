@@ -49,7 +49,22 @@ name its source does not go on the card.
 | `report/` | Narrative prose and metadata, plus the Typst template | `recommend` |
 | `pdf/` | Built reports | `report/build.sh` |
 | `agents/` | Subagent definitions for the three phases | — |
-| `examples/worked-run/` | A complete fictional run, for shape | — |
+| `examples/worked-run/` | A complete fictional run, for shape — template repo only | — |
+
+## Two ways this directory comes to exist
+
+**A clone of the template repo.** Everything above is present, including
+`examples/worked-run/` and `docs/`.
+
+**Scaffolded by the `spec-led-certification` Claude Code plugin**, into a directory
+that may sit inside a larger, unrelated repo. Then a `.spec-led-certification` marker
+file at the workspace root records the creation date and the template version, and
+**that marker is the workspace root** — resolve every path in these instructions
+against it, not against the enclosing git repo. Look for it in the current directory
+and then upward.
+
+Scaffolded workspaces have no `examples/`, so `./report/build.sh example` is correctly
+absent there rather than broken.
 
 ## Conventions
 
