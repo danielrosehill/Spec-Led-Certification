@@ -1,21 +1,23 @@
 # Spec-Led Certification
 
-A template repository for choosing a professional certification the way you would
-run a procurement: **write the specification first, then go to market.**
+A template repository for choosing a professional certification the way you would run
+a procurement: **write the specification first, then go to market.**
 
-Clone it, run the skills against your own situation, and you end up with a repo that
-holds the spec you wrote, the credentials you surveyed, the scores you gave them, and
-the reasoning that picked one — rather than a bookmark folder and a hunch.
+Clone it, run the skills against your own situation, and you end up with a repo
+holding the spec you wrote, the credentials you surveyed, the scores you gave them,
+the sources behind every score, and a typeset report — rather than a bookmark folder
+and a hunch.
 
 ## The premise
 
-The usual way of choosing a certification is market-led and reactive:
+Choosing a certification is normally market-led and reactive:
 
-> I work in this field → here is what's on offer in this field → this one looks
-> well-regarded → I'll sit that.
+> I work in this field → here is what's on offer → this one looks well-regarded →
+> I'll sit that.
 
 The exam's blueprint becomes the specification by default. You find out what you
-wanted from the credential *after* you have already agreed to want what it teaches.
+wanted from the credential *after* agreeing to want what it teaches, and the criteria
+you would have written are recovered afterwards, as reasons for a choice already made.
 
 Spec-led inverts the order:
 
@@ -23,45 +25,104 @@ Spec-led inverts the order:
 > here is everything on the market → here is how each one scores against **my**
 > specification → this one, for these reasons, and here is what would change my mind.
 
-The specification is written before the options are known, so it cannot be quietly
-back-fitted to whichever exam you were already drawn to. Nothing about this is specific
-to certifications — it is ordinary requirements-then-sourcing discipline, applied to a
-decision that people usually make on reputation.
+The specification is written and frozen before the options are known, so it cannot be
+back-fitted to whichever exam you were already drawn to. Nothing about this is
+specific to certifications — it is ordinary requirements-then-sourcing discipline
+applied to a decision people usually make on reputation. Full reasoning in
+[docs/method.md](docs/method.md).
 
-## Why an agent workflow
+## The workflow
 
-The expensive parts of doing this properly are exactly the parts an agent is good at:
-reading a dozen vendor blueprints that are each ten pages of task statements, pulling
-the eligibility rules out of pages that would rather sell you a course, scoring every
-candidate against the same rubric without drifting, and grounding a readiness estimate
-in evidence you have actually produced instead of self-report.
+```
+  intake ─────────────────────────────────────────┐
+    define-spec            what field, which topics
+    benchmark-me           where you are now, from evidence
+    learning-preferences   how you take information in
+    define-objectives      what it's for; standing positions; the window
+    define-budget          money and hours
+                                                  │
+  build-scorecard   ◄───── weights derived from the profile alone
+                          ── FREEZE ──  committed before anything is looked up
+                                                  │
+  research-market   ◄───── survey, filter, price, score against the frozen card
+                                                  │
+  recommend         ◄───── narrative + computed tables → PDF
+```
 
-The parts it is *not* good at — deciding what you care about, what a credential is
-supposed to signal and to whom, what you are willing to spend — stay with you. That
-split is the reason the workflow starts with a specification interview rather than a
-search.
+Run the lot with the `spec-led-certification` meta-skill, or invoke any stage on its
+own to redo one piece.
 
-Two rules the skills enforce throughout, because they are where this kind of research
-usually goes wrong:
+| Skill | Does |
+| --- | --- |
+| [`spec-led-certification`](skills/spec-led-certification/SKILL.md) | Sequences everything; handles first runs and re-runs |
+| [`define-spec`](skills/define-spec/SKILL.md) | The headline ask — field, named topics, what's out of scope |
+| [`benchmark-me`](skills/benchmark-me/SKILL.md) | Where you stand, read off repos, site, CV — not self-report |
+| [`learning-preferences`](skills/learning-preferences/SKILL.md) | Modality, devices, session shape, assessment formats, what has failed before |
+| [`define-objectives`](skills/define-objectives/SKILL.md) | Purpose, audience, standing positions, the window, the kill condition |
+| [`define-budget`](skills/define-budget/SKILL.md) | Money and hours, captured separately because they fail separately |
+| [`build-scorecard`](skills/build-scorecard/SKILL.md) | Weighted anchored criteria + hard filters, then freeze |
+| [`research-market`](skills/research-market/SKILL.md) | Survey, filter on eligibility, price the whole route, score with sources |
+| [`recommend`](skills/recommend/SKILL.md) | The answer, why the runner-up lost, where to invest, what would change it |
 
-- **Cite the vendor, not the prep industry.** Exam-prep sites paraphrase gated PDFs,
-  and they sell preparation, so they run optimistic on eligibility and difficulty.
-  Every claim is tagged with where it came from and whether it was vendor-confirmed.
-- **Score against evidence.** Readiness comes from artefacts you can point at, not
-  from asking yourself how confident you feel.
+Three subagent roles in [`agents/`](agents/) map to the phases. The research agent
+never sees the intake conversation, which enforces the freeze structurally rather
+than by good intentions.
 
-## How it is meant to run
+## Four properties worth knowing before you start
 
-A meta-skill walks the stages in order and hands each one the output of the last.
-Each stage can also be invoked on its own to redo a piece without restarting.
+**The memory lives in the repo, not in the assistant.** Every intake skill writes to
+`profile/` as plain markdown and is forbidden from using the agent's own memory
+store. You can read it, correct it, diff it, and take it to a different assistant next
+time.
 
-The stages, and the skills that implement them, are being defined now — this section
-will name them once they exist.
+**Everything is dated, and decays at its own rate.** What you know is stale in a
+quarter; how you learn is much the same in five years. Each profile file carries a
+`review_after`, so a re-run six months later re-asks the one file that expired and
+confirms the other four. That is the difference between a workflow you run once and
+one you run whenever the market moves.
 
-## Status
+**Hard requirements exclude, they don't score down.** A requirement that can be
+outweighed is not a requirement. Eligibility gates and non-negotiables filter
+candidates out, and the excluded ones appear in the report with the filter they
+failed — so "why not that one?" isn't re-asked every run.
 
-Early. The method is the settled part; the skills are being written. Issues and forks
-welcome, but expect the layout to move.
+**Every number in the report is computed from the data.** `report/report.typ` reads
+the CSVs at compile time and works out the weighted totals, the ranking and the
+comparison table itself. The recommendation skill writes prose only. A report whose
+narrative can drift from its arithmetic is untrustworthy in exactly the respect that
+matters.
+
+## See it before you run it
+
+```bash
+./report/build.sh example      # → pdf/example-report.pdf
+```
+
+A complete scored run with [deliberately fictional
+credentials](examples/worked-run/), built from the same template as a live run. Its
+most instructive case is the best-known credential in the set finishing last — not
+because it is weak, but because the spec weighted recognition at 0.05 and vendor
+neutrality at 0.22, and the report says so.
+
+## Getting started
+
+1. Use this template, or clone it. One repo per search.
+2. Install [Typst](https://github.com/typst/typst#installation) if you want the PDF.
+   Everything else works without it; the markdown stands on its own.
+3. Point your agent at the repo and invoke `spec-led-certification`.
+4. Answer the interview honestly, including the question about what would make this
+   not worth doing at all.
+
+Roughly an hour of conversation for a first run, most of it in intake. A re-run is a
+few minutes plus a fresh market sweep.
+
+## Adapting it
+
+The shape generalises to any decision made by surveying a market against personal
+requirements — a degree programme, a framework, a vendor, a contract. Swap the
+coverage criteria in `build-scorecard` for whatever the domain's topics are; the
+freeze, the filters, the confidence tags and the compile-time arithmetic carry over
+unchanged.
 
 ## Licence
 

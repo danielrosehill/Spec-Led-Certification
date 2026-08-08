@@ -1,0 +1,70 @@
+answer: |
+  *Sit the Meridian Agentic Systems Practitioner.* It is the only credential surveyed
+  that scores above 0.7 on both criteria this spec weighted heaviest — vendor
+  neutrality and MCP coverage — while staying inside both the money and the hours.
+
+  *Then consider Tessera as a warm-up, not as the answer.* It is free, open and the
+  most protocol-led of the four, which is why it ranks second. It is also a
+  foundations credential that does not assess delegation at all, so it satisfies the
+  spec's topic list only in part. Sitting it costs nothing but ten hours and would
+  close the context-management gap before the Meridian attempt.
+
+  *Do not sit Northgate.* It is the best-known credential here and it finishes last.
+  That is not a mistake in the arithmetic; it is the spec working.
+
+reasoning: |
+  The ranking turns almost entirely on one weight. Recognition carries 0.05, because
+  the stated audience is existing clients who have already seen the work, not
+  anonymous recruiters filtering a stack of CVs. Northgate scores 0.90 on recognition
+  and it buys almost nothing. Against that, vendor neutrality carries 0.22 — the
+  heaviest criterion on the card — and Northgate scores 0.25, because six of its nine
+  objectives are its own console and SDK.
+
+  Reweight for a different audience and the answer changes honestly. If the purpose
+  were passing an automated CV filter, recognition would carry 0.25 and Northgate
+  would win. The scorecard is not claiming Northgate is a weak credential. It is
+  claiming Northgate is a weak credential *for this person, for this reason*, and
+  that distinction is the whole point of writing the spec first.
+
+  Helios finishes third on a thinner evidence base than the others. Its blueprint is
+  gated behind a training purchase, so two of its scores come from prep-provider
+  descriptions rather than the vendor, and one criterion could not be established at
+  all. Its position is the least stable of the four.
+
+invest: |
+  Against the Meridian blueprint, the benchmark is strong in three of five assessed
+  domains and thin in two. Both gaps are narrow and closable by building rather than
+  reading, which is the useful kind of gap.
+
+  - *Context and state management.* The weakest scored area in the benchmark and a
+    named Meridian objective. Build one agent that persists state across sessions and
+    handles a context window it genuinely overflows — the overflow is the part the
+    exam tests and the part that never comes up when the window is large enough.
+
+  - *Evaluation and error analysis.* No test directories anywhere in the evidence
+    reviewed. Meridian assesses evaluation as a named objective, and this is also the
+    gap most likely to matter after the exam. Add a scored evaluation harness to one
+    existing agent; the discipline transfers whether or not the credential is ever
+    sat.
+
+  - *Leave delegation alone.* Already strong on the evidence, and Meridian's
+    treatment of it is lighter than the existing work. Reading up here would feel
+    productive and buy nothing.
+
+limits: |
+  *Two scores are inferred rather than confirmed.* Meridian's time fit and Tessera's
+  recognition carry #box[I] tags. Neither is load-bearing for the recommendation —
+  Meridian still wins if both are wrong in the least favourable direction — but the
+  gap between Meridian and Tessera would narrow.
+
+  *One criterion could not be established for Helios.* Its context-management
+  coverage is not in any public document; the blueprint is gated. Helios is scored
+  over the remaining criteria rather than penalised, so its position is the least
+  comparable of the four.
+
+  *What would change the answer.* A shift in audience — if the purpose became
+  satisfying a tender that names a specific credential, recognition would dominate
+  and Northgate would win outright. A published Meridian blueprint revision that
+  reduced the MCP domain below about a tenth would also move it. Both are worth a
+  re-run rather than a guess; the intake is already on file, so the second pass is
+  the market sweep only.

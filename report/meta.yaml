@@ -1,0 +1,8 @@
+# Written by the `recommend` skill. Read by report.typ at compile time.
+title: "Certification options"
+subject: "<subject from profile/spec.md>"
+author: "<your name>"
+date: "<YYYY-MM-DD>"
+run: "1"
+# One sentence. Printed in the summary box on page 1.
+headline: "Not yet run."

@@ -1,0 +1,30 @@
+# Narrative sections of the report. Written by the `recommend` skill.
+#
+# Each value is Typst markup, evaluated at compile time. Use YAML block scalars (|)
+# so the markup survives intact. Markup you will want: *bold*, _italic_, `- ` lists,
+# #link("url")[text], and blank lines between paragraphs.
+#
+# Prose only. Every figure in the report is computed from the CSVs — a number typed
+# into this file can drift from its data, and eventually will. Refer to scores in
+# words ("scores highest on portability") and let the tables carry the digits.
+
+# The answer, up front. Two or three short paragraphs. Name the recommendation and
+# the single reason for it before any qualification.
+answer: |
+  _Not yet run._ Complete the intake, freeze the scorecard, run the research, then
+  invoke the `recommend` skill to replace this file.
+
+# Why the ranking came out this way. Address the top two or three candidates
+# directly, including why the runner-up lost — that is what a reader actually wants
+# and the part most comparisons omit.
+reasoning: ""
+
+# Where to invest. Named capability areas from profile/benchmark.md set against the
+# recommended credential's blueprint. Concrete and narrow: what to build or practise,
+# not "study harder". This section has the longest shelf life, because it stays
+# useful whether or not the exam is ever sat.
+invest: ""
+
+# What would change the answer, and what could not be established. If the top scores
+# rest on inferred rather than vendor-confirmed evidence, say so plainly here.
+limits: ""

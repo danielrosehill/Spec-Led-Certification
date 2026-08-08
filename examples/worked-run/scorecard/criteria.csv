@@ -1,0 +1,10 @@
+id,label,weight,kind,anchor_1,anchor_half,anchor_0,source
+vendor_neutrality,Vendor neutrality,0.22,quality,"Blueprint teaches protocols and patterns that transfer to any toolchain","Roughly half the assessed objectives are one vendor's product surface","Entirely one vendor's console, SDK and pricing model",objectives.md#standing-positions
+mcp,MCP coverage,0.15,coverage,"MCP named as an assessed objective with a stated blueprint weight","MCP appears in a syllabus bullet but is not separately assessed","No mention of MCP or any tool-protocol equivalent",spec.md#named-topics
+architecture,Agent architecture,0.15,coverage,"Agent loops, planning and termination assessed as their own domain","Covered inside a broader design domain","Not assessed",spec.md#named-topics
+delegation,Sub-agent delegation,0.10,coverage,"Multi-agent coordination assessed with named task statements","Mentioned as an advanced topic without assessment","Not assessed",spec.md#named-topics
+context,Context management,0.08,coverage,"Context windows, memory and state assessed explicitly","Touched on within a prompting domain","Not assessed",spec.md#named-topics
+access,Accessibility,0.10,constraint,"Open registration, no prerequisite, sittable from anywhere","Prerequisite exam or course, but no organisational gate","Requires partner tier or employer sponsorship",objectives.md#standing-positions
+cost_fit,Cost fit,0.08,constraint,"All-in cost well under the comfortable figure in budget.md","Between the comfortable figure and the ceiling","At or above the ceiling",budget.md#financial
+time_fit,Time fit,0.07,constraint,"Honest prep estimate under half the total study budget","Consumes most of the study budget","Exceeds the study budget or misses the window",budget.md#time
+recognition,Recognition,0.05,quality,"Named in job postings and tenders in the target market","Known within the vendor's ecosystem only","Effectively unknown outside its own marketing",objectives.md#audience

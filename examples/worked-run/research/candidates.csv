@@ -1,0 +1,7 @@
+id,name,vendor,cost_all_in,currency,status,excluded_by,url
+meridian,Meridian Agentic Systems Practitioner,Meridian Institute,195,USD,candidate,,https://example.org/meridian
+northgate,Northgate Certified Agent Engineer,Northgate Cloud,340,USD,candidate,,https://example.org/northgate
+helios,Helios Applied LLM Developer,Helios AI,250,USD,candidate,,https://example.org/helios
+tessera,Tessera Agent Foundations,Tessera Labs,0,USD,candidate,,https://example.org/tessera
+cascade,Cascade Agent Architect,Cascade Systems,600,USD,excluded,No organisational gate — partner tier requires 10+ employees,https://example.org/cascade
+brightline,Brightline AI Professional,Brightline,410,USD,excluded,Sittable remotely — in-person test centre only,https://example.org/brightline

@@ -1,0 +1,4 @@
+id,label,rule,source
+remote,Sittable remotely,"Excluded if the only route is an in-person test centre",objectives.md#standing-positions
+no_org_gate,No organisational gate,"Excluded if eligibility requires partner-network membership or a minimum employer size",objectives.md#standing-positions
+window,Fits the window,"Excluded if the exam is not offered before the date in objectives.md",objectives.md#certification-window
