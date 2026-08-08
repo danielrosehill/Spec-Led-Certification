@@ -104,6 +104,23 @@ most instructive case is the best-known credential in the set finishing last —
 because it is weak, but because the spec weighted recognition at 0.05 and vendor
 neutrality at 0.22, and the report says so.
 
+## Or install it as a Claude Code plugin
+
+```
+/plugin marketplace add danielrosehill/Claude-Code-Plugins
+/plugin install spec-led-certification@danielrosehill
+```
+
+Then `/cert-search` in any directory. The plugin
+([spec-led-certification-plugin](https://github.com/danielrosehill/spec-led-certification-plugin))
+vendors these skills verbatim and adds a `scaffold-workspace` skill that copies the
+working structure into wherever you are, so you install once instead of cloning per
+search. By default it drops the skills into the workspace too, which keeps the
+directory runnable without the plugin.
+
+**This repo stays canonical.** Changes to a stage skill go here first and reach the
+plugin through its sync script.
+
 ## Getting started
 
 1. Use this template, or clone it. One repo per search.
