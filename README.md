@@ -136,10 +136,10 @@ neutrality at 0.22, and the report says so.
 
 Then `/cert-search` in any directory. The plugin
 ([spec-led-certification-plugin](https://github.com/danielrosehill/spec-led-certification-plugin))
-vendors these skills verbatim and adds a `scaffold-workspace` skill that copies the
-working structure into wherever you are, so you install once instead of cloning per
-search. By default it drops the skills into the workspace too, which keeps the
-directory runnable without the plugin.
+vendors these skills verbatim and adds two ways to stand a workspace up:
+`create-workspace` instantiates **this repo as a private GitHub repo** and clones it —
+the default, since the search then survives the machine — and `scaffold-workspace`
+copies the structure into a plain local directory when there should be no remote.
 
 **This repo stays canonical.** Changes to a stage skill go here first and reach the
 plugin through its sync script.
