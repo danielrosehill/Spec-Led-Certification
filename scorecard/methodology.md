@@ -2,6 +2,9 @@
 status: unfilled
 frozen: false
 frozen_at:
+stale: false
+stale_since:
+stale_reason:
 ---
 
 # Scorecard methodology
@@ -31,6 +34,26 @@ recorded in [Amendments](#amendments) below with the reason. Amending is allowed
 research legitimately turns up considerations nobody anticipated. Amending *silently*
 is not, and an amendment made after the scores are in gets its own line in the report
 so the reader can discount it.
+
+## Frozen, and separately, stale
+
+Two flags that answer two different questions.
+
+**`frozen`** — was this scorecard fixed before research ran? Set once, and never unset.
+It is a fact about the past, and the commit that carries it is the evidence.
+
+**`stale`** — has the profile changed since? Set by `update-profile` when any intake
+file is rewritten, and cleared when `build-scorecard` runs again. It says the criteria
+need rebuilding before the next survey, not that the freeze never happened.
+
+Keeping them separate is what lets the profile be corrected without destroying the
+record. A stale scorecard is still evidence of what was frozen before the last
+research; unsetting `frozen` to signal "needs rebuilding" would throw that away and
+leave nothing to show the method was followed.
+
+`rerun-search` reads `stale` and rebuilds and re-freezes before surveying. Researching
+a changed person against an unchanged specification produces a ranking that looks fine
+and is wrong in a way nothing surfaces.
 
 ## Two kinds of requirement
 

@@ -49,12 +49,34 @@ applied to a decision people usually make on reputation. Full reasoning in
   recommend         ◄───── narrative + computed tables → PDF
 ```
 
-Run the lot with the `spec-led-certification` meta-skill, or invoke any stage on its
-own to redo one piece.
+## Three ways in
+
+The stages above are the same every time, but the three situations you arrive in are
+not, so each has its own entry point rather than a branch inside one skill.
+
+| Entry point | When | Costs |
+| --- | --- | --- |
+| [`start-search`](skills/start-search/SKILL.md) | First run, or a new subject | ~an hour, nearly all of it intake |
+| [`rerun-search`](skills/rerun-search/SKILL.md) | Intake already on file — has the market moved? | Minutes plus a fresh sweep |
+| [`update-profile`](skills/update-profile/SKILL.md) | Something about *you* changed | A couple of minutes |
+
+`rerun-search` archives the previous run to `runs/<date>/` — scorecard, data and
+conclusion together — and its report leads with **what changed**: whether the earlier
+recommendation still holds, which scores moved and why, and what entered or left. That
+comparison is the payoff for having written the profile down, and it is why the second
+pass is cheap.
+
+`update-profile` deliberately stops short of researching. It re-interviews only the
+files that changed and marks the scorecard `stale`, so the next run rebuilds it. A
+two-minute correction should not drag an hour of research behind it, and a market
+sweep should not quietly reopen questions about you that nobody asked to reconsider.
+
+Not sure which? [`spec-led-certification`](skills/spec-led-certification/SKILL.md)
+reads the state on disk and routes.
 
 | Skill | Does |
 | --- | --- |
-| [`spec-led-certification`](skills/spec-led-certification/SKILL.md) | Sequences everything; handles first runs and re-runs |
+| [`spec-led-certification`](skills/spec-led-certification/SKILL.md) | Router — reads the state and picks one of the three above |
 | [`define-spec`](skills/define-spec/SKILL.md) | The headline ask — field, named topics, what's out of scope |
 | [`benchmark-me`](skills/benchmark-me/SKILL.md) | Where you stand, read off repos, site, CV — not self-report |
 | [`learning-preferences`](skills/learning-preferences/SKILL.md) | Modality, devices, session shape, assessment formats, what has failed before |
@@ -79,7 +101,8 @@ time.
 quarter; how you learn is much the same in five years. Each profile file carries a
 `review_after`, so a re-run six months later re-asks the one file that expired and
 confirms the other four. That is the difference between a workflow you run once and
-one you run whenever the market moves.
+one you run whenever the market moves — and it is why `update-profile` and
+`rerun-search` are separate skills rather than one.
 
 **Hard requirements exclude, they don't score down.** A requirement that can be
 outweighed is not a requirement. Eligibility gates and non-negotiables filter
@@ -126,12 +149,13 @@ plugin through its sync script.
 1. Use this template, or clone it. One repo per search.
 2. Install [Typst](https://github.com/typst/typst#installation) if you want the PDF.
    Everything else works without it; the markdown stands on its own.
-3. Point your agent at the repo and invoke `spec-led-certification`.
+3. Point your agent at the repo and invoke `start-search`.
 4. Answer the interview honestly, including the question about what would make this
    not worth doing at all.
 
-Roughly an hour of conversation for a first run, most of it in intake. A re-run is a
-few minutes plus a fresh market sweep.
+Roughly an hour of conversation for a first run, most of it in intake. Come back with
+`rerun-search` when you want to know if the market moved, or `update-profile` when
+something about you changes.
 
 ## Adapting it
 

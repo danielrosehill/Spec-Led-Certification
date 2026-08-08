@@ -201,6 +201,7 @@
 = The answer
 
 #let n-answer = narrative-block("answer")
+#let n-changes = narrative-block("changes")
 #let n-reasoning = narrative-block("reasoning")
 #let n-invest = narrative-block("invest")
 #let n-limits = narrative-block("limits")
@@ -211,6 +212,13 @@
   == Why
 
   #n-reasoning
+]
+
+// Re-runs only. On a first pass `changes` is empty and the section does not exist.
+#if n-changes != none [
+  = What changed since the last run
+
+  #n-changes
 ]
 
 = Ranking

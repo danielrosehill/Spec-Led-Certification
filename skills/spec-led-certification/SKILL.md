@@ -1,127 +1,73 @@
 ---
 name: spec-led-certification
-description: Run the whole spec-led certification workflow end to end — intake interviews, freeze the scorecard, survey and score the market, produce the recommendation PDF. Handles first runs and re-runs, skipping intake stages whose answers are still current. Use when the user wants to find a certification worth taking, or to refresh an earlier run against a changed market.
+description: Entry point for the whole workflow — reads the state on disk and routes to start-search, rerun-search or update-profile. Use when the user wants a certification decision and it is not obvious which of the three they need, or when they do not know what state an existing workspace is in.
 ---
 
-# Spec-led certification — full run
+# Spec-led certification — router
 
-Sequences the eight stage skills and carries each one's output to the next. Use this
-rather than invoking stages by hand unless the user wants to redo one piece.
+Works out which of the three usage patterns applies and hands off. It does not carry
+any procedure of its own; each entry point is self-contained and can be invoked
+directly when the user already knows what they want.
 
-## The order, and why it is not negotiable
-
-```
-  intake ─────────────────────────────────────────┐
-    define-spec            what field, which topics
-    benchmark-me           where they are now, from evidence
-    learning-preferences   how they take information in
-    define-objectives      what it is for; standing positions; the window
-    define-budget          money and hours
-                                                  │
-  build-scorecard   ◄───── derives weights from the profile alone
-                          ── FREEZE ──  commit before looking anything up
-                                                  │
-  research-market   ◄───── survey, filter, price, score against the frozen card
-                                                  │
-  recommend         ◄───── narrative + computed tables → PDF
-```
-
-The freeze is the whole mechanism. A scorecard written after the options are known is
-a rationalisation of whichever option already appealed, and the process then produces
-the same answer as picking on reputation, with arithmetic bolted on. So: no credential
-is named, searched for, or considered until `scorecard/methodology.md` says
-`frozen: true`.
-
-You will already know some of the market. Do not let that shape a weight. The
-`source` column on every criterion is the check — a criterion that cannot name the
-line in `profile/` it came from does not go on the card.
-
-## Start by reading the state
-
-Check the frontmatter of all five files in `profile/`, plus
-`scorecard/methodology.md`. Decide which of three situations you are in:
-
-**First run** — everything `unfilled`. Run all eight stages in order.
-
-**Re-run** — profile filled. For each file, compare `review_after` to today:
-
-| Situation | Action |
+| Entry point | When |
 | --- | --- |
-| Past `review_after` | Run that intake skill again |
-| Current | Show the user a two-line summary and ask them to confirm or amend. Do not re-interview |
-| Any change at all to the profile | Rebuild the scorecard, re-freeze, re-research |
+| [`start-search`](../start-search/SKILL.md) | First run, or a new subject. Onboarding, five interviews, scorecard, research, report |
+| [`rerun-search`](../rerun-search/SKILL.md) | Intake already on file. Archive, confirm, re-survey, report what changed |
+| [`update-profile`](../update-profile/SKILL.md) | Something about the user changed. Re-interview only what moved, mark the scorecard stale |
 
-Typically only `benchmark.md` has expired — high volatility, three months — and the
-re-run costs one short conversation plus a fresh market sweep. That is the payoff for
-having written the profile down in the first place, so say so: tell the user which
-stages you are skipping and why.
+If the user's request already names one — "start again", "has anything changed", "I've
+got more time now" — go straight there. Only work through the state when it is
+genuinely unclear.
 
-**Resumed run** — some stages filled, some not, nothing expired. Pick up where it
-stopped and say where that was.
+## Read the state
 
-## Running the stages
+Check the frontmatter of the five files in `profile/` and of
+`scorecard/methodology.md`.
 
-Invoke each stage skill in turn. Between stages:
+| State on disk | Route to |
+| --- | --- |
+| `profile/` missing entirely | Scaffold first, then `start-search` |
+| All five `unfilled` | `start-search` |
+| Some filled, some unfilled, nothing expired | `start-search`, which skips what is already done |
+| All filled and current | `rerun-search` |
+| All filled, one or more past `review_after` | `update-profile` for the expired ones, then offer `rerun-search` |
+| Filled and current, but `scorecard` is `stale: true` | `rerun-search` — it rebuilds and re-freezes |
 
-- Tell the user what was captured, in no more than two lines. They should be able to
-  catch a wrong answer without reading the file.
-- Commit, if this is a git checkout. One commit per stage. The commit before research
-  is the one that proves the scorecard was frozen first, and it is the only evidence
-  that the process was followed rather than described.
-- Do not silently continue past a refusal or a "let me think about that". Record the
-  gap and move on; `define-spec` and `define-objectives` both have places for open
-  questions.
+Say which route you picked and why, in one line, before starting. If the state and
+the user's words disagree — the profile looks current but they say they want to start
+over — ask rather than guessing, and check whether they mean a **new subject**, which
+means a new directory rather than overwriting this one.
 
-## Delegating to subagents
+## The rule that holds across all three
 
-If the agent supports subagents, the three roles in `agents/` map to the phases:
-`intake`, `research`, `recommendation`. Three benefits, in order of importance:
+**No credential is named, searched for, or considered until
+`scorecard/methodology.md` says `frozen: true` and `stale: false`.**
 
-1. **The research agent never sees the intake conversation.** It receives the frozen
-   scorecard and nothing else, which enforces the freeze structurally rather than by
-   good intentions.
-2. The research phase reads a lot of pages, and that stays out of the main context.
-3. Each role can carry its own tool permissions — the research agent needs web
-   access, the intake agent does not.
+A scorecard written or amended after the options are known is a rationalisation of
+whichever one already appealed, and a weighted table is a very effective way of making
+that look rigorous. Every criterion carries a `source` column naming the line in
+`profile/` it came from; one that cannot fill that column honestly does not go on the
+card.
 
-Without subagent support, run the stages inline. The workflow is designed to work
-either way; the subagents make the separation harder to violate, they do not create
-it.
+## Subagents
+
+If subagents are available, the three roles in `agents/` map to the phases regardless
+of which entry point is running: `intake` for any interview, `research` for any market
+sweep, `recommendation` for any report. The research agent receives the frozen
+scorecard and not the intake conversation, which enforces the freeze structurally
+rather than by instruction.
 
 ## Where everything is written
 
-Nothing goes into the agent's own memory store — not Claude's memory, not a hosted
-profile, not "I'll remember". It all goes into this repository as plain markdown and
-CSV. That is what makes the workflow agent-agnostic and what makes the six-month
-re-run cheap: the user brings the repo, not the assistant.
+Nothing goes into the agent's own memory store. It all goes into this workspace as
+plain markdown and CSV, so the user can read it, correct it, and take it to a
+different assistant next time.
 
-| Stage | Writes |
+| Path | Holds |
 | --- | --- |
-| `define-spec` | `profile/spec.md` |
-| `benchmark-me` | `profile/benchmark.md` |
-| `learning-preferences` | `profile/learning-preferences.md` |
-| `define-objectives` | `profile/objectives.md` |
-| `define-budget` | `profile/budget.md` |
-| `build-scorecard` | `scorecard/criteria.csv`, `scorecard/filters.csv`, `scorecard/methodology.md` |
-| `research-market` | `research/candidates.csv`, `research/scores.csv`, `research/candidates/*.md`, `research/sources.md` |
-| `recommend` | `report/meta.yaml`, `report/narrative.yaml`, `pdf/certification-report.pdf` |
-
-## On a re-run, keep the old run readable
-
-Before overwriting `research/`, note the previous run's date and headline in
-`research/sources.md` under a new dated section. What changed in the market between
-two runs is frequently the most interesting output of the second one — a blueprint
-revision, a price rise, an eligibility rule that opened or closed — and it is
-invisible if the first run was simply overwritten.
-
-Bump `run` in `report/meta.yaml`.
-
-## Finishing
-
-Give the recommendation in the conversation, not only in the PDF. Then say when it is
-worth running again: the earliest `review_after` in `profile/`, or the specific
-condition named in the report's limits section, whichever comes first.
-
-If the honest answer is that no credential clears the spec, say that as the
-recommendation. The kill condition in `profile/objectives.md` was written for this
-case, and a workflow that cannot return "none of these" is not evaluating anything.
+| `profile/` | The five dated intake files |
+| `scorecard/` | Criteria, filters, methodology, and the freeze and stale flags |
+| `research/` | Candidates, scores, per-credential notes, verification log |
+| `report/` | Narrative and metadata; `report.typ` computes every figure from the CSVs |
+| `runs/<date>/` | Archived previous runs — scorecard, data and conclusion together |
+| `pdf/` | Built reports |

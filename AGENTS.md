@@ -26,6 +26,25 @@ Two reasons, and the second is the important one:
 
 If you have a memory tool available, this is the case where you do not reach for it.
 
+## Three entry points
+
+Which one applies is a property of the workspace, not a preference. Read the state
+before choosing, and say which you picked.
+
+| Entry point | When |
+| --- | --- |
+| `start-search` | `profile/` unfilled, or a new subject |
+| `rerun-search` | Intake on file. Archives the previous run, re-surveys, reports what changed |
+| `update-profile` | Something about the user changed. Re-interviews only what moved |
+
+`spec-led-certification` is a router over the three and carries no procedure itself.
+
+**`frozen` and `stale` are different flags.** `frozen` records that the scorecard was
+fixed before research ran, and is never unset — the commit carrying it is the evidence.
+`stale` records that the profile has changed since, is set by `update-profile`, and is
+cleared when `build-scorecard` runs again. Never unset `frozen` to signal "needs
+rebuilding": that destroys the record that the method was followed.
+
 ## The order is the mechanism
 
 ```
@@ -47,6 +66,7 @@ name its source does not go on the card.
 | `scorecard/` | Weighted criteria, hard filters, and the frozen methodology | `build-scorecard` |
 | `research/` | Candidates, scores, per-credential notes, verification log | `research-market` |
 | `report/` | Narrative prose and metadata, plus the Typst template | `recommend` |
+| `runs/<date>/` | Archived previous runs — scorecard, data and conclusion together | `rerun-search` |
 | `pdf/` | Built reports | `report/build.sh` |
 | `agents/` | Subagent definitions for the three phases | — |
 | `examples/worked-run/` | A complete fictional run, for shape — template repo only | — |

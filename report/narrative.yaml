@@ -14,6 +14,18 @@ answer: |
   _Not yet run._ Complete the intake, freeze the scorecard, run the research, then
   invoke the `recommend` skill to replace this file.
 
+# Written by `rerun-search` only, and printed immediately after the answer — on a
+# second pass the reader's first question is whether last time's conclusion still
+# holds. Leave empty on a first run; the report omits the section entirely.
+#
+# Order: does the previous recommendation still stand (say so plainly, including when
+# nothing moved); what changed and did it move the ranking; new entrants and
+# departures; and if the scorecard was rebuilt, that totals are not directly
+# comparable with the archived run. Distinguish a credential that genuinely changed
+# from one scored on better evidence this time — the second is a correction, not a
+# market movement.
+changes: ""
+
 # Why the ranking came out this way. Address the top two or three candidates
 # directly, including why the runner-up lost — that is what a reader actually wants
 # and the part most comparisons omit.
